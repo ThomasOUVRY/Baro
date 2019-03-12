@@ -2,19 +2,30 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
+// DATABASES MODULES
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('sqlite3.db');
+const dbPrimes = new sqlite3.Database('sqlite3.db');
+const dbBaro = new sqlite3.Database('sqlite3B.db');
 
-const query = `SELECT * from primes`;
- db.all(query, [], (err,rows)=>{
-   if(err) {  
+// On cherche le nombre d'items pour le champ size de la balise select
+const queryNbItemsBaro = `SELECT * from baroItems`;
+let nbItemsBaro;
+const selectBaliseBaro = document.querySelector('.baroList');
+console.log(selectBaliseBaro);
+
+dbBaro.all(queryNbItemsBaro, [], (err, rows) => {
+  if (err) {
     throw err;
-   }
-   const tableauPrimes = document.querySelector('.primes'); 
-   rows.forEach((row) => {
-     tableauPrimes.innerHTML+= `<tr> <td>${row.nom}</td> <td>${row.prix_ducats}</td> </tr>`;
-   });
+  }
+  nbItemsBaro = rows.length;
+  // Debut balise SELECT BARO
+  let html = `<select name="listBaro" size="50" multiple>`;
+  rows.forEach((row) => {
+    html += `<option value="${row.nom}">${row.nom} ${row.prix_ducats} </option>`;
+  });
+  html += `</select>`;
+  selectBaliseBaro.innerHTML = html;
+});
 
- });
-
-db.close();
+dbPrimes.close();
+dbBaro.close();
