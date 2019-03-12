@@ -1,2 +1,0 @@
-# Baro
-A Warframe Tool
