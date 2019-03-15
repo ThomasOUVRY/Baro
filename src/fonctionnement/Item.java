@@ -1,3 +1,4 @@
+package fonctionnement;
 /** Item général, que ce soit de Baro ou Prime **/
 public class Item {
 
